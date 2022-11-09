@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/Screens/Product_DetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato'
         ),
         home: const HomePage_Ecommerce(),
+        routes: {
+          '/ProductDetailScreen' : (ctx) => ProductDetailScreen(),
+        },
       ),
     );
   }
