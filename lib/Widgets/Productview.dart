@@ -1,18 +1,14 @@
+import '../providers/Product.dart';
 import 'package:flutter/material.dart';
-import '../Screens/Product_DetailScreen.dart';
+import 'package:provider/provider.dart';
+
 class productview extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-
-
-
-  productview(this.id, this.title, this.imageUrl);
   @override
   Widget build(BuildContext context) {
-
-    void productdetailscreen(){
-      Navigator.of(context).pushNamed('/ProductDetailScreen', arguments: id);
+    final product = Provider.of<Product>(context);
+    void productdetailscreen() {
+      Navigator.of(context)
+          .pushNamed('/ProductDetailScreen', arguments: product.id);
     }
 
     return ClipRRect(
@@ -20,13 +16,21 @@ class productview extends StatelessWidget {
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black54,
-          leading: IconButton(
-            icon: Icon(Icons.favorite, color: Theme.of(context).accentColor),
-            onPressed: () {},
+          leading: Consumer<Product>(
+            builder: (ctx, product, _) => IconButton(
+              icon: Icon(
+                  product.isfavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border_outlined,
+                  color: Theme.of(context).accentColor),
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+            ),
           ),
           title: Text(
-            title,
-           //textAlign: TextAlign.center,
+            product.title,
+            //textAlign: TextAlign.center,
             //style: Theme.of(context).textTheme.subtitle1,
           ),
           trailing: IconButton(
@@ -36,9 +40,9 @@ class productview extends StatelessWidget {
           ),
         ),
         child: GestureDetector(
-          onTap: ()=> productdetailscreen(),
+          onTap: () => productdetailscreen(),
           child: Image.network(
-            imageUrl,
+            product.imageUrl,
             fit: BoxFit.cover,
           ),
         ),

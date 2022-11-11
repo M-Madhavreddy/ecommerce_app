@@ -40,6 +40,11 @@ class Products with ChangeNotifier{
     return [..._items];
 }
 
+  List<Product> get Favs {
+    return items.where((prod) => prod.isfavorite).toList();
+  }
+
+
 void addProduct(){
     notifyListeners();
 }
