@@ -10,7 +10,7 @@ class ProductScreenOverview extends StatefulWidget {
 }
 
 class _ProductScreenOverviewState extends State<ProductScreenOverview> {
-  bool Favorites = false;
+  bool favorites = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,40 +21,42 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
         title: const Text('Products'),
         actions: [
           PopupMenuButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => [
-              PopupMenuItem(
-                child: Text('Favorites'),
+              const PopupMenuItem(
                 value: 0,
+                child: Text('Favorites'),
               ),
-              PopupMenuItem(
-                child: Text('ALL Products'),
+              const PopupMenuItem(
                 value: 1,
+                child: Text('ALL Products'),
               ),
             ],
             onSelected: (int value) {
               setState(() {
                 if (value == 0) {
-                  Favorites = true;
+                  favorites = true;
                 } else {
-                  Favorites = false;
+                  favorites = false;
                 }
               });
             },
           ),
           Consumer(
             builder: ((context, Cart, child) => Badge(
-                  child: IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: () {},
-                  ),
-                  value: cart.itemcount,
+                  value: cart.itemCount.toString(),
                   color: Theme.of(context).accentColor,
+                  child: IconButton(
+                    icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/cartScreen');
+                    },
+                  ),
                 )),
           )
         ],
       ),
-      body: product_gridview(Favorites),
+      body: product_gridview(favorites),
     );
   }
 }

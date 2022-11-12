@@ -41,7 +41,17 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-   String get itemcount {
-     return _items.length.toString();
+   int get itemCount {
+     return _items.length;
    }
+
+   double get cartTotal {
+     double total=0.0;
+     _items.forEach((key, cartItem) {
+       total += cartItem.quantity * cartItem.price ;
+     });
+     return total;
+   }
+
+
 }
