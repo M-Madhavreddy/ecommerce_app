@@ -14,13 +14,13 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  late Map<String, CartItem> _items;
+   Map<String, CartItem> _items ={};
 
   Map<String, CartItem> get items {
     return {..._items};
   }
 
-  void addItems(String id, String title, double price) {
+  void addCartItems(String id, String title, double price) {
     if (_items.containsKey(id)) {
       _items.update(
           id,
@@ -38,5 +38,10 @@ class Cart with ChangeNotifier {
               price: price,
               quantity: 1));
     }
+    notifyListeners();
   }
+
+   String get itemcount {
+     return _items.length.toString();
+   }
 }

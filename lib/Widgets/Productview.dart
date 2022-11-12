@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/providers/cart.dart';
 import '../providers/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,8 @@ import 'package:provider/provider.dart';
 class productview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     void productdetailscreen() {
       Navigator.of(context)
           .pushNamed('/ProductDetailScreen', arguments: product.id);
@@ -36,7 +38,8 @@ class productview extends StatelessWidget {
           trailing: IconButton(
             icon:
                 Icon(Icons.shopping_cart, color: Theme.of(context).accentColor),
-            onPressed: () {},
+            onPressed: () =>
+                cart.addCartItems(product.id, product.title, product.price),
           ),
         ),
         child: GestureDetector(

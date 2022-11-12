@@ -1,5 +1,4 @@
 import 'package:ecommerce_app/Widgets/Productview.dart';
-import 'package:ecommerce_app/Widgets/products_Gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/products_provider.dart';
@@ -11,6 +10,7 @@ class product_gridview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productdata = Provider.of<Products>(context);
+
     final products = Favorites ? productdata.Favs : productdata.items;
     return GridView.builder(
         padding: const EdgeInsets.all(10),

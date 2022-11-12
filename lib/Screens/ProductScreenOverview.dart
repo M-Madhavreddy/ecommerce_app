@@ -1,5 +1,8 @@
+import 'package:ecommerce_app/Widgets/badge.dart';
 import 'package:ecommerce_app/Widgets/products_Gridview.dart';
+import 'package:ecommerce_app/providers/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreenOverview extends StatefulWidget {
   @override
@@ -11,6 +14,8 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
@@ -36,6 +41,16 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 }
               });
             },
+          ),
+          Consumer(
+            builder: ((context, Cart, child) => Badge(
+                  child: IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {},
+                  ),
+                  value: cart.itemcount,
+                  color: Theme.of(context).accentColor,
+                )),
           )
         ],
       ),
