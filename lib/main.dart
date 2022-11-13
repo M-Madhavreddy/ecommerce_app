@@ -1,9 +1,9 @@
 import 'package:ecommerce_app/Screens/Product_DetailScreen.dart';
 import 'package:ecommerce_app/Screens/cart_screen.dart';
 import 'package:ecommerce_app/providers/cart.dart';
+import 'package:ecommerce_app/providers/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'Screens/HomePage.dart';
 import './providers/products_provider.dart';
 
@@ -19,10 +19,12 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => Products(),
           ),
-            ChangeNotifierProvider(
-              create: (ctx) => Cart(),
-            )
-
+          ChangeNotifierProvider(
+            create: (ctx) => Cart(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Orders(),
+          ),
         ],
         child: MaterialApp(
           theme: ThemeData(
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
           home: const HomePage_Ecommerce(),
           routes: {
             '/ProductDetailScreen': (ctx) => ProductDetailScreen(),
-            '/cartScreen' : (ctx) => CartScreen(),
+            '/cartScreen': (ctx) => CartScreen(),
           },
         ));
   }

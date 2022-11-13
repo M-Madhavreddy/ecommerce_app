@@ -6,8 +6,7 @@ class CartItem {
   final int quantity;
   final double price;
 
-  CartItem(
-      {required this.id,
+  CartItem({required this.id,
       required this.title,
       required this.price,
       required this.quantity});
@@ -50,11 +49,16 @@ class Cart with ChangeNotifier {
      _items.forEach((key, cartItem) {
        total += cartItem.quantity * cartItem.price ;
      });
-     return total;
+     return total.toDouble();
    }
 
    void removeItem(String productId){
     _items.remove(productId);
+    notifyListeners();
+   }
+
+   void clear(){
+    _items={};
     notifyListeners();
    }
 
