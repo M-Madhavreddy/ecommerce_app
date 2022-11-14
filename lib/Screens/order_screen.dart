@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/Widgets/orderview.dart';
 import 'package:ecommerce_app/providers/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class OrdersScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemBuilder: (ctx, i) => Card(),
+        itemBuilder: (ctx, i) => orderview(orderdetails: orders.orderList[i] ,),
         itemCount: orders.ordersLength,
       ),
     );
