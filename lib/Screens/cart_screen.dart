@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/Widgets/cartview.dart';
 import 'package:ecommerce_app/providers/cart.dart' show Cart;
+import 'package:ecommerce_app/providers/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final routeName = '/cartScreen';
     final cart = Provider.of<Cart>(context);
+    final order = Provider.of<Orders>(context);
     final List cartList = cart.items.values.toList();
 
     return Scaffold(
@@ -31,7 +33,10 @@ class CartScreen extends StatelessWidget {
                   label: Text('\$${cart.cartTotal.toStringAsFixed(2)}'),
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    order.addOrders(cart.items.values.toList(), cart.cartTotal);
+                    cart.clear();
+                  },
                   child: const Text(
                     'Order Now',
                     style: TextStyle(
@@ -46,7 +51,7 @@ class CartScreen extends StatelessWidget {
               itemCount: cart.itemCount,
               itemBuilder: (ctx, index) => CartView(
                   id: cartList[index].id,
-                  productId : cart.items.keys.toList()[index],
+                  productId: cart.items.keys.toList()[index],
                   title: cartList[index].title,
                   price: cartList[index].price,
                   quantity: cartList[index].quantity),
