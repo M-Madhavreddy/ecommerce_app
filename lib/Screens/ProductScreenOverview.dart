@@ -31,6 +31,10 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 value: 1,
                 child: Text('ALL Products'),
               ),
+              const PopupMenuItem(
+                value: 2,
+                child: Text('oder item'),
+              ),
             ],
             onSelected: (int value) {
               setState(() {
@@ -38,6 +42,9 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                   favorites = true;
                 } else {
                   favorites = false;
+                }
+                if (value == 2){
+                  Navigator.of(context).pushNamed('/orderScreen');
                 }
               });
             },
