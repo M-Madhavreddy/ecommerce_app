@@ -33,7 +33,7 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
               ),
               const PopupMenuItem(
                 value: 2,
-                child: Text('oder item'),
+                child: Text('Orders'),
               ),
             ],
             onSelected: (int value) {
@@ -59,7 +59,8 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                       Navigator.of(context).pushNamed('/cartScreen');
                     },
                   ),
-                )),
+                )
+            ),
           )
         ],
       ),

@@ -36,11 +36,23 @@ class productview extends StatelessWidget {
             //style: Theme.of(context).textTheme.subtitle1,
           ),
           trailing: IconButton(
-            icon:
-                Icon(Icons.shopping_cart, color: Theme.of(context).accentColor),
-            onPressed: () =>
-                cart.addCartItems(product.id, product.title, product.price),
-          ),
+              icon: Icon(Icons.shopping_cart,
+                  color: Theme.of(context).accentColor),
+              onPressed: () {
+                cart.addCartItems(product.id, product.title, product.price);
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                 SnackBar(
+                    content: const Text('Item added to Cart'),
+                    duration: const Duration(
+                      seconds: 2,
+                    ),
+                    action:SnackBarAction(label: 'UNDO', onPressed: (){
+                       cart.undoItem(product.id);
+                    }),
+                  ),
+                );
+              }),
         ),
         child: GestureDetector(
           onTap: () => productdetailscreen(),

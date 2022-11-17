@@ -1,8 +1,8 @@
-import 'package:ecommerce_app/Screens/Product_DetailScreen.dart';
-import 'package:ecommerce_app/Screens/cart_screen.dart';
-import 'package:ecommerce_app/Screens/order_screen.dart';
-import 'package:ecommerce_app/providers/cart.dart';
-import 'package:ecommerce_app/providers/orders.dart';
+import './Screens/Product_DetailScreen.dart';
+import './Screens/cart_screen.dart';
+import './Screens/order_screen.dart';
+import './providers/cart.dart';
+import './providers/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/HomePage.dart';
