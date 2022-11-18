@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/Screens/user_products_screen.dart';
 import 'package:ecommerce_app/Widgets/badge.dart';
 import 'package:ecommerce_app/Widgets/products_Gridview.dart';
 import 'package:ecommerce_app/providers/cart.dart';
@@ -35,6 +36,10 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 value: 2,
                 child: Text('Orders'),
               ),
+              const PopupMenuItem(
+                value: 3,
+                child: Text('Manage Products')
+              ),
             ],
             onSelected: (int value) {
               setState(() {
@@ -45,6 +50,9 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 }
                 if (value == 2){
                   Navigator.of(context).pushNamed('/orderScreen');
+                }
+                else if(value == 3){
+                  Navigator.of(context).pushNamed(UserProductScreen.routeName);
                 }
               });
             },
