@@ -1,5 +1,5 @@
+import 'package:ecommerce_app/Screens/edit_product_screen.dart';
 import 'package:ecommerce_app/Screens/user_products_screen.dart';
-
 import './Screens/Product_DetailScreen.dart';
 import './Screens/cart_screen.dart';
 import './Screens/order_screen.dart';
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
             '/cartScreen': (ctx) => CartScreen(),
             '/orderScreen' : (ctx) => OrdersScreen(),
             UserProductScreen.routeName : (ctx) => UserProductScreen(),
+            EditProductScreen.routeName : (ctx) => EditProductScreen(),
           },
         ));
   }
