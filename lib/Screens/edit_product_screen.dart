@@ -11,6 +11,16 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
+  final _imageController = TextEditingController();
+
+
+  void dispose(){
+    _priceFocusNode.dispose();
+    _imageController.dispose();
+    _descriptionFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +55,37 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 maxLines: 3,
                 focusNode: _descriptionFocusNode,
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                      margin: const EdgeInsets.only(top: 10, right: 10),
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        color: Colors.black12,
+                        width: 2,
+                      )),
+                      child: _imageController.text.isEmpty
+                          ? const Text('Add Image Url')
+                          : FittedBox(
+                              child: Image.network(_imageController.text),
+                        fit: BoxFit.fill,
+                            )),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Image Url'),
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      controller: _imageController,
+                      onEditingComplete: (){
+                        setState((){});
+                      },
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
