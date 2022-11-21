@@ -2,6 +2,7 @@ import 'package:ecommerce_app/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/user_product_view.dart';
+import 'package:ecommerce_app/Screens/add_newproduct_screen.dart';
 
 class UserProductScreen extends StatelessWidget {
   const UserProductScreen({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class UserProductScreen extends StatelessWidget {
         title: const Text('Manage Your Products'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditProductScreen.routeName);
+            },
             icon: const Icon(Icons.add),
           ),
         ],
