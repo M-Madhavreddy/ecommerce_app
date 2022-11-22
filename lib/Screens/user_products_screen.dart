@@ -2,7 +2,7 @@ import 'package:ecommerce_app/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/user_product_view.dart';
-import 'package:ecommerce_app/Screens/add_newproduct_screen.dart';
+import 'package:ecommerce_app/Screens/add_or_edit_product_screen.dart';
 
 class UserProductScreen extends StatelessWidget {
   const UserProductScreen({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class UserProductScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(EditProductScreen.routeName);
+              Navigator.of(context).pushNamed(EditProductScreen.routeName , arguments: 'null');
             },
             icon: const Icon(Icons.add),
           ),

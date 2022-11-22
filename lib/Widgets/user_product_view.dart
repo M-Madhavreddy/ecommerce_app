@@ -1,4 +1,4 @@
-
+import 'package:ecommerce_app/Screens/add_or_edit_product_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserProductView extends StatelessWidget {
@@ -7,7 +7,8 @@ class UserProductView extends StatelessWidget {
   final String productTitle;
 
   UserProductView(
-      {required this.imageUrl,
+      {
+      required this.imageUrl,
       required this.productId,
       required this.productTitle});
 
@@ -23,12 +24,15 @@ class UserProductView extends StatelessWidget {
           productTitle,
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
+        //subtitle: Text(productId),
         trailing: Container(
           width: 100,
           child: Row(
             children: [
               IconButton(
                 onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(EditProductScreen.routeName, arguments: productId);
                 },
                 icon: Icon(Icons.edit, color: Theme.of(context).accentColor),
               ),

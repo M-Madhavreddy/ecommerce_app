@@ -45,6 +45,17 @@ class Products with ChangeNotifier {
     return items.where((prod) => prod.isfavorite).toList();
   }
 
+  Product findById(String id){
+    return _items.firstWhere((prod) => (prod.id == id) ,);
+  }
+
+  void updateProduct(String id,Product product){
+    int prodindex = _items.indexWhere((prod) => prod.id==id);
+    if(prodindex>=0){
+      _items[prodindex] = product;
+      notifyListeners();
+    }
+  }
   void addProduct(Product product) {
     final newProduct = Product(
         id: DateTime.now().toString(),
