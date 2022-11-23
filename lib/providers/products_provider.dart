@@ -1,5 +1,7 @@
 import './Product.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -45,25 +47,46 @@ class Products with ChangeNotifier {
     return items.where((prod) => prod.isfavorite).toList();
   }
 
-  Product findById(String id){
-    return _items.firstWhere((prod) => (prod.id == id) ,);
+  Product findById(String id) {
+    return _items.firstWhere(
+      (prod) => (prod.id == id),
+    );
   }
 
-  void updateProduct(String id,Product product){
-    int prodindex = _items.indexWhere((prod) => prod.id==id);
-    if(prodindex>=0){
+  void updateProduct(String id, Product product) {
+    int prodindex = _items.indexWhere((prod) => prod.id == id);
+    if (prodindex >= 0) {
       _items[prodindex] = product;
       notifyListeners();
     }
   }
+
   void addProduct(Product product) {
-    final newProduct = Product(
-        id: DateTime.now().toString(),
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl);
-    _items.add(newProduct);
+    final url = Uri.https(
+        'flutter-shopapp-2f255-default-rtdb.firebaseio.com',
+        '/products.json');
+    http.post(url,body : json.encode({
+      'title' : product.title,
+      'price' : product.price,
+      'description': product.description,
+      'imageUrl' : product.imageUrl,
+      'isFavorite' : product.isfavorite,
+    })).then((response) {
+      print(json.decode(response.body));
+      final newProduct = Product(
+          id: json.decode(response.body)['name'],
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl);
+      _items.add(newProduct);
+      notifyListeners();
+    });
+
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
 }

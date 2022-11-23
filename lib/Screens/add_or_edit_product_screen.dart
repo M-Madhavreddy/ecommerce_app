@@ -26,7 +26,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   var _init = true;
   var _initValues = {
-    'title': ' ',
+    'title': '',
     'price': '',
     'imageUrl': '',
     'description': '',
@@ -34,7 +34,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void didChangeDependencies() {
     if (_init) {
-      final productid = ModalRoute.of(context)!.settings.arguments.toString();
+      final productid = ModalRoute
+          .of(context)!
+          .settings
+          .arguments
+          .toString();
 
       if (productid != 'null') {
         _editedProduct = Provider.of<Products>(context).findById(productid);
@@ -46,19 +50,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
         };
         _imageController.text = _editedProduct.imageUrl;
       }
-      _init = false;
     }
+      _init = false;
+    super.didChangeDependencies();
   }
 
-  // void dispose() {
-  //   _priceFocusNode.dispose();
-  //   _imageController.dispose();
-  //   _descriptionFocusNode.dispose();
-  //   super.dispose();
-  // }
+  void dispose() {
+    _priceFocusNode.dispose();
+    _imageController.dispose();
+    _descriptionFocusNode.dispose();
+    super.dispose();
+  }
+
 
   void _saveForm() {
-    _formKey.currentState!.validate();
+    final isValid = _formKey.currentState!.validate();
+    if( !isValid ){
+      return ;
+    }
     _formKey.currentState!.save();
     if (_editedProduct.id != '') {
       Provider.of<Products>(context, listen: false)
@@ -108,7 +117,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       title: value.toString(),
                       description: _editedProduct.description,
                       price: _editedProduct.price,
-                      imageUrl: _editedProduct.imageUrl);
+                      imageUrl: _editedProduct.imageUrl,
+                  isfavorite: _editedProduct.isfavorite);
                 },
               ),
               const Divider(),
