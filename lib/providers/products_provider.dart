@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class Products with ChangeNotifier {
   List<Product> _items = [
     Product(
@@ -54,18 +55,18 @@ class Products with ChangeNotifier {
   }
 
   void updateProduct(String id, Product product) {
-    int prodindex = _items.indexWhere((prod) => prod.id == id);
-    if (prodindex >= 0) {
-      _items[prodindex] = product;
+    int prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = product;
       notifyListeners();
     }
   }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     final url = Uri.https(
         'flutter-shopapp-2f255-default-rtdb.firebaseio.com',
         '/products.json');
-    http.post(url,body : json.encode({
+    return http.post(url,body : json.encode({
       'title' : product.title,
       'price' : product.price,
       'description': product.description,
@@ -81,8 +82,10 @@ class Products with ChangeNotifier {
           imageUrl: product.imageUrl);
       _items.add(newProduct);
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
-
   }
 
   void deleteProduct(String id) {
