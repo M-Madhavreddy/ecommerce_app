@@ -2,6 +2,7 @@ import 'package:ecommerce_app/Screens/user_products_screen.dart';
 import 'package:ecommerce_app/Widgets/badge.dart';
 import 'package:ecommerce_app/Widgets/products_Gridview.dart';
 import 'package:ecommerce_app/providers/cart.dart';
+import 'package:ecommerce_app/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,23 @@ class ProductScreenOverview extends StatefulWidget {
 
 class _ProductScreenOverviewState extends State<ProductScreenOverview> {
   bool favorites = false;
+  var _init = true;
+  var _isloading = false;
+
+  void didChangeDependencies() {
+    if (_init) {
+      setState(() {
+        _isloading = true ;
+      });
+      Provider.of<Products>(context).fetchProducts().then((_){
+        setState(() {
+          _isloading = false;
+        });
+      });
+    }
+    _init = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +54,7 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 value: 2,
                 child: Text('Orders'),
               ),
-              const PopupMenuItem(
-                value: 3,
-                child: Text('Manage Products')
-              ),
+              const PopupMenuItem(value: 3, child: Text('Manage Products')),
             ],
             onSelected: (int value) {
               setState(() {
@@ -48,10 +63,9 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                 } else {
                   favorites = false;
                 }
-                if (value == 2){
+                if (value == 2) {
                   Navigator.of(context).pushNamed('/orderScreen');
-                }
-                else if(value == 3){
+                } else if (value == 3) {
                   Navigator.of(context).pushNamed(UserProductScreen.routeName);
                 }
               });
@@ -67,12 +81,14 @@ class _ProductScreenOverviewState extends State<ProductScreenOverview> {
                       Navigator.of(context).pushNamed('/cartScreen');
                     },
                   ),
-                )
-            ),
+                )),
           )
         ],
       ),
-      body: product_gridview(favorites),
+      body: _isloading
+          ? const Center(
+              child: CircularProgressIndicator(),)
+          : product_gridview(favorites),
     );
   }
 }
