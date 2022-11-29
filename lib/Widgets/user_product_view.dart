@@ -9,13 +9,14 @@ class UserProductView extends StatelessWidget {
   final String productTitle;
 
   UserProductView(
-      {
-      required this.imageUrl,
+      {required this.imageUrl,
       required this.productId,
       required this.productTitle});
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ListTile(
@@ -33,14 +34,20 @@ class UserProductView extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(EditProductScreen.routeName, arguments: productId);
+                  Navigator.of(context).pushNamed(EditProductScreen.routeName,
+                      arguments: productId);
                 },
                 icon: Icon(Icons.edit, color: Theme.of(context).accentColor),
               ),
               IconButton(
-                onPressed: () {
-                  Provider.of<Products>(context,listen: false).deleteProduct(productId);
+                onPressed: () async {
+                  try {
+                    await Provider.of<Products>(context, listen: false)
+                        .deleteProduct(productId);
+                  } catch (error) {
+                    scaffold.showSnackBar(
+                        const SnackBar(content: Text('Error in deleting')));
+                  }
                 },
                 icon: Icon(
                   Icons.delete,
