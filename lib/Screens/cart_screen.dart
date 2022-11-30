@@ -32,17 +32,7 @@ class CartScreen extends StatelessWidget {
                 Chip(
                   label: Text('\$${cart.cartTotal.toStringAsFixed(2)}'),
                 ),
-                FlatButton(
-                  onPressed: () {
-                    order.addOrders(cart.items.values.toList(), cart.cartTotal);
-                    cart.clear();
-                  },
-                  child: const Text(
-                    'Order Now',
-                    style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.w800),
-                  ),
-                )
+                OrderButton(order: order, cart: cart)
               ],
             ),
           ),
@@ -58,6 +48,44 @@ class CartScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+   OrderButton({
+    Key? key,
+    required this.order,
+    required this.cart,
+  }) : super(key: key);
+
+  final Orders order;
+  final Cart cart;
+  bool waiting = false ;
+
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: (widget.cart.cartTotal <= 0 ) ? null : () async {
+        setState((){
+          widget.waiting = true;
+        });
+        await widget.order.addOrders(widget.cart.items.values.toList(), widget.cart.cartTotal);
+        setState((){
+          widget.waiting = false;
+        });
+        widget.cart.clear();
+      },
+      child: widget.waiting ? const CircularProgressIndicator() : const Text(
+        'Order Now',
+        style: TextStyle(
+            color: Colors.blue, fontWeight: FontWeight.w800),
       ),
     );
   }

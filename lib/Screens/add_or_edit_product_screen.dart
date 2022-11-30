@@ -71,14 +71,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
     if (_editedProduct.id != '') {
       Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+          .updateProduct(_editedProduct.id, _editedProduct)
+          .then((value) => setState(() {
+                _isLoading = false;
+                Navigator.of(context).pop();
+              }));
     } else {
       Provider.of<Products>(context, listen: false)
           .addProduct(_editedProduct)
+          .then((value) => setState(() {
+                _isLoading = false;
+                Navigator.of(context).pop();
+              }))
           .catchError((error) {
         return showDialog(
           context: context,
