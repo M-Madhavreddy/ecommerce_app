@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/Screens/add_or_edit_product_screen.dart';
+import 'package:ecommerce_app/Screens/auth_screen.dart';
 import 'package:ecommerce_app/Screens/user_products_screen.dart';
 import './Screens/Product_DetailScreen.dart';
 import './Screens/cart_screen.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.purple,
               accentColor: Colors.deepOrangeAccent,
               fontFamily: 'Lato'),
-          home: const HomePage_Ecommerce(),
+          home: AuthScreen(),
           routes: {
             '/ProductDetailScreen': (ctx) => ProductDetailScreen(),
             '/cartScreen': (ctx) => CartScreen(),
