@@ -1,5 +1,8 @@
 import 'dart:math';
+import 'package:ecommerce_app/Screens/HomePage.dart';
+import 'package:ecommerce_app/providers/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -24,7 +27,7 @@ class AuthScreen extends StatelessWidget {
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0,1],
+                stops: [0, 1],
               ),
             ),
           ),
@@ -58,7 +61,10 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'My Shop',
                         style: TextStyle(
-                          color: Theme.of(context).accentTextTheme.subtitle1!.color,
+                          color: Theme.of(context)
+                              .accentTextTheme
+                              .subtitle1!
+                              .color,
                           fontSize: 50,
                           fontFamily: 'Anton',
                           fontWeight: FontWeight.normal,
@@ -95,7 +101,7 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
@@ -106,8 +112,13 @@ class _AuthCardState extends State<AuthCard> {
     });
     if (_authMode == AuthMode.Login) {
       // Log user in
+      await Provider.of<Auth>(context,listen: false)
+          .userLogin(_authData['email']!, _authData['password']!);
+      Navigator.of(context).pushNamed( HomePage_Ecommerce.routeName );
     } else {
       // Sign user up
+      await Provider.of<Auth>(context,listen: false)
+          .userSignUp(_authData['email']!, _authData['password']!);
     }
     setState(() {
       _isLoading = false;
@@ -134,9 +145,10 @@ class _AuthCardState extends State<AuthCard> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 8.0,
-      child: Container(height: _authMode == AuthMode.Signup ? 320 : 260,
-       constraints:
-           BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+      child: Container(
+        height: _authMode == AuthMode.Signup ? 320 : 260,
+        constraints:
+            BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
