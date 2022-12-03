@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'dart:math';
-import 'package:ecommerce_app/Screens/HomePage.dart';
 import 'package:ecommerce_app/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -101,6 +101,19 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
+  void _showErrorDailog(String message){
+    showDialog(context: context, builder: (ctx)=>AlertDialog(
+      title: const Text('ERROR !!!'),
+      content: Text(message),
+      actions: [
+        FlatButton(onPressed: (){
+          Navigator.of(ctx).pop();
+        },
+        child : const Text('Okay') )
+      ],
+    ));
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
@@ -110,15 +123,36 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      // Log user in
-      await Provider.of<Auth>(context,listen: false)
-          .userLogin(_authData['email']!, _authData['password']!);
-      Navigator.of(context).pushNamed( HomePage_Ecommerce.routeName );
-    } else {
-      // Sign user up
-      await Provider.of<Auth>(context,listen: false)
-          .userSignUp(_authData['email']!, _authData['password']!);
+    try{
+      if (_authMode == AuthMode.Login) {
+        // Log user in
+        await Provider.of<Auth>(context,listen: false)
+            .userLogin(_authData['email']!, _authData['password']!);
+        //Navigator.of(context).pushReplacementNamed( HomePage_Ecommerce.routeName );
+      } else {
+        // Sign user up
+        await Provider.of<Auth>(context,listen: false)
+            .userSignUp(_authData['email']!, _authData['password']!);
+      }
+    } on HttpException catch (error) {
+      var errormessage = 'Authentication Problem!!';
+      if(error.toString().contains('EMAIL_EXISTS')){
+        errormessage = 'This email already exists try another';
+      }
+      else if(error.toString().contains('EMAIL_NOT_FOUND')){
+        errormessage = 'wrong EmailId try again';
+      }
+      else if(error.toString().contains('INVALID_PASSWORD')){
+        errormessage = 'wrong Password try again';
+      }
+      else if(error.toString().contains('USER_NOT_FOUND')){
+        errormessage = 'user not found for given EmailId try with new one';
+      }
+      _showErrorDailog(errormessage);
+
+    } catch (error){
+      const String errormessage= 'Authentication not done. Please try after sometime!!';
+      _showErrorDailog(errormessage);
     }
     setState(() {
       _isLoading = false;

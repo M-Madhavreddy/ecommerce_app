@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class HomePage_Ecommerce extends StatelessWidget {
 
-  static const routeName = '/homepage';
+  final routeName = '/homepage';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

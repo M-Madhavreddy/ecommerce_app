@@ -20,34 +20,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (ctx) => Auth(),
-          ),
-          ChangeNotifierProvider(
-            create: (ctx) => Products(),
-          ),
-          ChangeNotifierProvider(
-            create: (ctx) => Cart(),
-          ),
-          ChangeNotifierProvider(
-            create: (ctx) => Orders(),
-          ),
-        ],
-        child: MaterialApp(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Auth(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
+        ),
+      ],
+      child: Consumer<Auth>(
+        builder: (BuildContext context, Auth, _) => MaterialApp(
           theme: ThemeData(
               primarySwatch: Colors.purple,
               accentColor: Colors.deepOrangeAccent,
               fontFamily: 'Lato'),
-          home: AuthScreen(),
+          home: Auth.isAuth ? HomePage_Ecommerce() : AuthScreen(),
           routes: {
-            HomePage_Ecommerce.routeName : (ctx) => HomePage_Ecommerce(),
+            //HomePage_Ecommerce.routeName: (ctx) => HomePage_Ecommerce(),
             '/ProductDetailScreen': (ctx) => ProductDetailScreen(),
             '/cartScreen': (ctx) => CartScreen(),
             '/orderScreen': (ctx) => OrdersScreen(),
             UserProductScreen.routeName: (ctx) => UserProductScreen(),
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
           },
-        ));
+        ),
+      ),
+    );
   }
 }
